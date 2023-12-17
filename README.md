@@ -69,7 +69,60 @@ Pontos que estão sendo estudados mas não foram resolvidos até o momento.
 
 ## Tópico 2: **Conceitos básicos do GraphQL**
 
-A.
+Definição de conceitos básicos do GraphQL, para que possamos iniciar nosso projeto na parte 2 desse repositório-tutorial.
+
+### SDL - Schema Definition Language
+
+É a representação de um objeto, modo pelo qual declaramos um esquema e tornamos conhecida a estrutura dos dados a serem consultados e/ou manipulados. Essa representação é usada como uma linguagem de programação ou framework, então declaramos os schemas GraphQL da mesma maneira para qualquer linguagem.
+
+#### EXEMPLO
+
+**Type Aluno**
+
+Exemplo de um schema que representa um aluno:
+
+```gql
+type Aluno {
+  id: ID!
+  nomeCompleto: String!
+  idade: Int
+}
+```
+
+O `type` é o elemento mais básico de um schema GraphQL. Representa os campos de um objeto e seus respectivos tipos.
+
+No exemplo acima estamos criando um `type` chamado `Aluno`. A estrutura de um dado de um aluno seguirá esse esquema, tendo os campos `id` e `nomeCompleto` como obrigatórios (note a `!` ao final da declaração).
+
+**Type Curso**
+
+Exemplo de um schema que representa um curso (que possui uma lista de alunos):
+
+```gql
+type Curso {
+  id: ID!
+  disciplina: String!
+  alunos: [Aluno!]!
+}
+```
+
+A estrutura de um `Curso` é bem semelhante ao de `Aluno`. Mas dessa vez, estamos usando o tipo `Aluno` dentro do tipo `Curso`.
+
+Os colchetes (`[]`) representam um array (e a `!` após o segundo colchete declara que o dado não pode ser `null`).
+
+E, dentro dos colchetes, a declaração `Aluno!` indica que cada item desse array deve ser do tipo `Aluno` (com `id`, `nomeCompleto` e  `idade`) e nunca pode ser `null`.
+
+**Vinculando um Curso a um Aluno**
+
+A seguir, declaramos que um aluno pode estar matriculado em até um (1) curso (note que o aluno também pode não estar matriculado em nenhum curso).
+
+```gql
+type Aluno {
+  id: ID!
+  nomeCompleto: String!
+  idade: Int
+  curso: Curso
+}
+```
 
 ___
 
