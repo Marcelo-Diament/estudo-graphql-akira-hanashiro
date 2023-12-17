@@ -31,4 +31,58 @@ Repositório que reúne estudos baseados no livro **GraphQL - A revolucionária 
 
 ___
 
+# Parte 1 - **Introdução ao GraphQL**
 
+A.
+
+## Tópico 1: **Conhecendo um novo mundo**
+
+A.
+
+## Tópico 2: **Conceitos básicos do GraphQL**
+
+A.
+
+___
+
+# Parte 2 - **GraphQL e Apollo Sandbox**
+
+A.
+
+## Tópico 3: **Apollo Sandbox**
+
+A.
+
+## Tópico 4: **Busca e Alteração de Dados**
+
+A.
+
+## Tópico 5: **Types**
+
+A.
+
+___
+
+# Parte 3 - **Criando uma aplicação**
+
+A.
+
+## Tópico 6: **Desenvolvimento Front-end**
+
+A.
+
+___
+
+# Parte 4 - **Programando um Servidor**
+
+A.
+
+## Tópico 7: **Desenvolvimento Back-end**
+
+A.
+
+___
+
+# Notas de Rodapé
+
+A.
