@@ -1,8 +1,9 @@
 # Estudo de GraphQL
 
+> Repositório que reúne estudos baseados no livro **GraphQL - A revolucionária linguagem de consulta e manipulação de dados para APIs**, de Akira Hanashiro.
+
 ![Capa](https://martinsfontespaulista.vteximg.com.br/arquivos/ids/232675-320-320/882537.jpg)
 
-Repositório que reúne estudos baseados no livro **GraphQL - A revolucionária linguagem de consulta e manipulação de dados para APIs**, de Akira Hanashiro.
 
 | Título  | **GraphQL - A revolucionária linguagem de consulta e manipulação de dados para APIs** |
 | ------- | ------------------------------------------------------------------------------------- |
@@ -264,7 +265,7 @@ Perceba que além dos argumentos (`nomeCompleto` e `idade`, entre parênteses), 
 }
 ```
 
-| Uma boa prática é declarar as mutations começando com um verbo que descreve a ação realizada, no caso, `criarAluno`, `atualizarAluno` e `excluirAluno`.
+> Uma boa prática é declarar as mutations começando com um verbo que descreve a ação realizada, no caso, `criarAluno`, `atualizarAluno` e `excluirAluno`.
 
 Quanto às mutations `atualizarAluno` e `excluirAluno`, veremos mais adiante (mas seguem exatamente a mesma lógica e estrutura).
 
@@ -298,7 +299,7 @@ Da mesma forma que ocorre em uma query ou mutation, declaramos entre chaves (`{}
 }
 ```
 
-| **WebScokets**: são uma forma de manter a conexão entre cliente e servidor ativa, permitindo a livre troca de dados entre ambos, nas duas direções.
+> **WebScokets**: são uma forma de manter a conexão entre cliente e servidor ativa, permitindo a livre troca de dados entre ambos, nas duas direções.
 
 ___
 
