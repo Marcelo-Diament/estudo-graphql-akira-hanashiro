@@ -124,6 +124,130 @@ type Aluno {
 }
 ```
 
+### Query - Consulta
+
+É a operação de consulta. Requer que os esquemas tenham sido declarados previamente.
+
+#### EXEMPLO
+
+**Query todosAlunos**
+
+Exemplo de uma requisição de consulta (query) cujo retorno lista todos os alunos (trazendo seus `nomeCompleto`s e `curso`s, mas não o `id`):
+
+```gql
+query todosAlunos {
+  nomeCompleto
+  idade
+}
+```
+
+No exemplo acima, `todosAlunos` seria o que chamamos de campo raiz (_rootField_). E as propriedades declaradas entre chaves (`{}`) são o _payload_. Os nomes dos campos do _payload_ (`id`, `nomeCompleto` e `curso`) são previamente definidos no back-end.
+
+A seguir, a resposta esperada (_response_) no formato `.json`:
+
+```json
+{
+  "data": {
+    "todosAlunos": [
+      {
+        "nomeCompleto": "Fulano",
+        "idade": 30
+      },
+      {
+        "nomeCompleto": "Ciclano",
+        "idade": 18
+      },
+      {
+        "nomeCompleto": "Beltrano",
+        "idade": 60
+      }
+    ]
+  }
+}
+```
+
+**Query todosAlunosComCursos - Campos Aninhados e Alias**
+
+Um novo exemplo de query, dessa vez com campos aninhados (referentes ao curso de cada aluno - `id` e `disciplina`) e também com uso de _alias_ (dá-se um novo nome para a informação que será retornada - no caso, `disciplina` por `materia`):
+
+```gql
+todosAlunosComCursos {
+  nomeCompleto
+  idade
+  curso {
+    id
+    materia: disciplina
+  }
+}
+```
+
+Perceba que é possível omitir a palavra `query`.
+
+Retorno esperado (`.json`):
+
+```json
+{
+  "data": {
+    "todosAlunosComCursos": [
+      {
+        "nomeCompleto": "Fulano",
+        "idade": 30,
+        "curso": {
+          "id": 100,
+          "materia": "ReactJS"
+        }
+      },
+      {
+        "nomeCompleto": "Ciclano",
+        "idade": 18,
+        "curso": {
+          "id": 101,
+          "materia": "GraphQL"
+        }
+      },
+      {
+        "nomeCompleto": "Beltrano",
+        "idade": 60,
+        "curso": null
+      }
+    ]
+  }
+}
+```
+
+A utilzação do _alias_ é muito útil por dar liberdade ao front-end renomear as propriedades sem demandar uma nova API ou a reestruturação do objeto retornado.
+
+**Query xPrimeirosAlunos - Query com Parâmetros**
+
+Ainda é possível executar consultas com base em parâmetros (permitindo trabalhar dados dinâmicos no front-end). Assim como as estruturas dos dados, o back-end deve ser previamente preparado para receber essas variáveis (veremos mais adiante).
+
+Nesse caso a consulta recebe um parâmetro chamado `primeiros`, que deve receber um número (`Int`) e retornar essa quantidade de registros (alunos).
+
+```gql
+xPrimeirosAlunos(primeiros: 2) {
+  nomeCompleto
+}
+```
+
+Veja que declaramos o parâmetro entre parênteses (`()`), com chave e valor (o valor deve corresponder ao tipo previsto no back-end).
+
+Retorno esperado (`.json`):
+
+```json
+{
+  "data": {
+    "todosAlunosComCursos": [
+      {
+        "nomeCompleto": "Fulano"
+      },
+      {
+        "nomeCompleto": "Ciclano"
+      }
+    ]
+  }
+}
+```
+
 ___
 
 # Parte 2 - **GraphQL e Apollo Sandbox**
