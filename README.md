@@ -75,7 +75,7 @@ Definição de conceitos básicos do GraphQL, para que possamos iniciar nosso pr
 
 É a representação de um objeto, modo pelo qual declaramos um esquema e tornamos conhecida a estrutura dos dados a serem consultados e/ou manipulados. Essa representação é usada como uma linguagem de programação ou framework, então declaramos os schemas GraphQL da mesma maneira para qualquer linguagem.
 
-#### EXEMPLO
+#### EXEMPLOS
 
 **Type Aluno**
 
@@ -128,7 +128,7 @@ type Aluno {
 
 É a operação de consulta. Requer que os esquemas tenham sido declarados previamente.
 
-#### EXEMPLO
+#### EXEMPLOS
 
 **Query todosAlunos**
 
@@ -150,15 +150,15 @@ A seguir, a resposta esperada (_response_) no formato `.json`:
   "data": {
     "todosAlunos": [
       {
-        "nomeCompleto": "Fulano",
+        "nomeCompleto": "Fulano da Silva",
         "idade": 30
       },
       {
-        "nomeCompleto": "Ciclano",
+        "nomeCompleto": "Ciclano da Silva",
         "idade": 18
       },
       {
-        "nomeCompleto": "Beltrano",
+        "nomeCompleto": "Beltrano da Silva",
         "idade": 60
       }
     ]
@@ -190,7 +190,7 @@ Retorno esperado (`.json`):
   "data": {
     "todosAlunosComCursos": [
       {
-        "nomeCompleto": "Fulano",
+        "nomeCompleto": "Fulano da Silva",
         "idade": 30,
         "curso": {
           "id": 100,
@@ -198,7 +198,7 @@ Retorno esperado (`.json`):
         }
       },
       {
-        "nomeCompleto": "Ciclano",
+        "nomeCompleto": "Ciclano da Silva",
         "idade": 18,
         "curso": {
           "id": 101,
@@ -206,7 +206,7 @@ Retorno esperado (`.json`):
         }
       },
       {
-        "nomeCompleto": "Beltrano",
+        "nomeCompleto": "Beltrano da Silva",
         "idade": 60,
         "curso": null
       }
@@ -236,17 +236,53 @@ Retorno esperado (`.json`):
 ```json
 {
   "data": {
-    "todosAlunosComCursos": [
+    "xPrimeirosAlunos": [
       {
-        "nomeCompleto": "Fulano"
+        "nomeCompleto": "Fulano da Silva"
       },
       {
-        "nomeCompleto": "Ciclano"
+        "nomeCompleto": "Ciclano da Silva"
       }
     ]
   }
 }
 ```
+
+### Mutation - Criação, Atualização e Exclusão
+
+É a operação de manipulação de dados. Requer que os esquemas tenham sido declarados previamente.
+
+#### EXEMPLOS
+
+**Mutation criarAluno**
+
+Exemplo de uma requisição de manipulação (mutation) que deve solicitar ao back-end que crie um novo aluno (conforme dados `nomeCompleto` e `idade`) cujo retorno lista todos os alunos (trazendo seus `nomeCompleto`s e `curso`s, mas não o `id`):
+
+```gql
+mutation {
+  criarAluno(nomeCompleto: "Fulano de Tal", idade: 51) {
+    id
+  }
+}
+```
+
+Perceba que além dos argumentos (`nomeCompleto` e `idade`, entre parênteses), passamos o `id` entre as chaves (`{}`). Nesse caso, o `id` não é criado por nós, mas sim pelo back-end. Declaramos o `id` como um dado que deve ser retornado.
+
+Resposta esperada (`.json`):
+
+```json
+{
+  "data": {
+    "criarAluno": {
+      "id": "4"
+    }
+  }
+}
+```
+
+| Uma boa prática é declarar as mutations começando com um verbo que descreve a ação realizada, no caso, `criarAluno`, `atualizarAluno` e `excluirAluno`.
+
+Quanto às mutations `atualizarAluno` e `excluirAluno`, veremos mais adiante (mas seguem exatamente a mesma lógica e estrutura).
 
 ___
 
