@@ -31,11 +31,11 @@ Repositório que reúne estudos baseados no livro **GraphQL - A revolucionária 
 
 ___
 
-# Parte 1 - **Introdução ao GraphQL**
+# **Introdução ao GraphQL**
 
 Sobre o por que de existir GraphQL, situações em que é vantajoso e noções gerais sobre GraphQL.
 
-## Tópico 1: **Conhecendo um novo mundo**
+## **Conhecendo um novo mundo**
 
 Criado pelo Facebook (atual Meta) em 2012, o GraphQL existe para resolver problemas que exigem muitas 'voltas' para serem resolvidos com REST (prejudicando a performance das aplicações). Trata-se de uma linguagem de consulta e manipulação de dados, assim como o SQL.
 
@@ -67,7 +67,7 @@ Pontos que estão sendo estudados mas não foram resolvidos até o momento.
 
 - **Cache** | Por termos uma única API no GraphQL, não conseguimos diferenciar cache por URL.
 
-## Tópico 2: **Conceitos básicos do GraphQL**
+## **Conceitos básicos do GraphQL**
 
 Definição de conceitos básicos do GraphQL, para que possamos iniciar nosso projeto na parte 2 desse repositório-tutorial.
 
@@ -89,9 +89,7 @@ type Aluno {
 }
 ```
 
-O `type` é o elemento mais básico de um schema GraphQL. Representa os campos de um objeto e seus respectivos tipos.
-
-No exemplo acima estamos criando um `type` chamado `Aluno`. A estrutura de um dado de um aluno seguirá esse esquema, tendo os campos `id` e `nomeCompleto` como obrigatórios (note a `!` ao final da declaração).
+O `type` é o elemento mais básico de um schema GraphQL. Representa os campos de um objeto e seus respectivos tipos. No exemplo acima estamos criando um `type` chamado `Aluno`. A estrutura de um dado de um aluno seguirá esse esquema, tendo os campos `id` e `nomeCompleto` como obrigatórios (note a `!` ao final da declaração).
 
 **Type Curso**
 
@@ -105,11 +103,7 @@ type Curso {
 }
 ```
 
-A estrutura de um `Curso` é bem semelhante ao de `Aluno`. Mas dessa vez, estamos usando o tipo `Aluno` dentro do tipo `Curso`.
-
-Os colchetes (`[]`) representam um array (e a `!` após o segundo colchete declara que o dado não pode ser `null`).
-
-E, dentro dos colchetes, a declaração `Aluno!` indica que cada item desse array deve ser do tipo `Aluno` (com `id`, `nomeCompleto` e  `idade`) e nunca pode ser `null`.
+A estrutura de um `Curso` é bem semelhante ao de `Aluno`. Mas dessa vez, estamos usando o tipo `Aluno` dentro do tipo `Curso`. Os colchetes (`[]`) representam um array (e a `!` após o segundo colchete declara que o dado não pode ser `null`). E, dentro dos colchetes, a declaração `Aluno!` indica que cada item desse array deve ser do tipo `Aluno` (com `id`, `nomeCompleto` e  `idade`) e nunca pode ser `null`.
 
 **Vinculando um Curso a um Aluno**
 
@@ -141,9 +135,7 @@ query todosAlunos {
 }
 ```
 
-No exemplo acima, `todosAlunos` seria o que chamamos de campo raiz (_rootField_). E as propriedades declaradas entre chaves (`{}`) são o _payload_. Os nomes dos campos do _payload_ (`id`, `nomeCompleto` e `curso`) são previamente definidos no back-end.
-
-A seguir, a resposta esperada (_response_) no formato `.json`:
+No exemplo acima, `todosAlunos` seria o que chamamos de campo raiz (_rootField_). E as propriedades declaradas entre chaves (`{}`) são o _payload_. Os nomes dos campos do _payload_ (`id`, `nomeCompleto` e `curso`) são previamente definidos no back-end. A seguir, a resposta esperada (_response_) no formato `.json`:
 
 ```json
 {
@@ -181,9 +173,7 @@ todosAlunosComCursos {
 }
 ```
 
-Perceba que é possível omitir a palavra `query`.
-
-Retorno esperado (`.json`):
+Perceba que é possível omitir a palavra `query`. Retorno esperado (`.json`):
 
 ```json
 {
@@ -219,9 +209,7 @@ A utilzação do _alias_ é muito útil por dar liberdade ao front-end renomear 
 
 **Query xPrimeirosAlunos - Query com Parâmetros**
 
-Ainda é possível executar consultas com base em parâmetros (permitindo trabalhar dados dinâmicos no front-end). Assim como as estruturas dos dados, o back-end deve ser previamente preparado para receber essas variáveis (veremos mais adiante).
-
-Nesse caso a consulta recebe um parâmetro chamado `primeiros`, que deve receber um número (`Int`) e retornar essa quantidade de registros (alunos).
+Ainda é possível executar consultas com base em parâmetros (permitindo trabalhar dados dinâmicos no front-end). Assim como as estruturas dos dados, o back-end deve ser previamente preparado para receber essas variáveis (veremos mais adiante). Nesse caso a consulta recebe um parâmetro chamado `primeiros`, que deve receber um número (`Int`) e retornar essa quantidade de registros (alunos).
 
 ```gql
 xPrimeirosAlunos(primeiros: 2) {
@@ -229,9 +217,7 @@ xPrimeirosAlunos(primeiros: 2) {
 }
 ```
 
-Veja que declaramos o parâmetro entre parênteses (`()`), com chave e valor (o valor deve corresponder ao tipo previsto no back-end).
-
-Retorno esperado (`.json`):
+Veja que declaramos o parâmetro entre parênteses (`()`), com chave e valor (o valor deve corresponder ao tipo previsto no back-end). Retorno esperado (`.json`):
 
 ```json
 {
@@ -266,9 +252,7 @@ mutation {
 }
 ```
 
-Perceba que além dos argumentos (`nomeCompleto` e `idade`, entre parênteses), passamos o `id` entre as chaves (`{}`). Nesse caso, o `id` não é criado por nós, mas sim pelo back-end. Declaramos o `id` como um dado que deve ser retornado.
-
-Resposta esperada (`.json`):
+Perceba que além dos argumentos (`nomeCompleto` e `idade`, entre parênteses), passamos o `id` entre as chaves (`{}`). Nesse caso, o `id` não é criado por nós, mas sim pelo back-end. Declaramos o `id` como um dado que deve ser retornado. Resposta esperada (`.json`):
 
 ```json
 {
@@ -286,39 +270,39 @@ Quanto às mutations `atualizarAluno` e `excluirAluno`, veremos mais adiante (ma
 
 ___
 
-# Parte 2 - **GraphQL e Apollo Sandbox**
+# **GraphQL e Apollo Sandbox**
 
 A.
 
-## Tópico 3: **Apollo Sandbox**
+## **Apollo Sandbox**
 
 A.
 
-## Tópico 4: **Busca e Alteração de Dados**
+## **Busca e Alteração de Dados**
 
 A.
 
-## Tópico 5: **Types**
-
-A.
-
-___
-
-# Parte 3 - **Criando uma aplicação**
-
-A.
-
-## Tópico 6: **Desenvolvimento Front-end**
+## **Types**
 
 A.
 
 ___
 
-# Parte 4 - **Programando um Servidor**
+# **Criando uma aplicação**
 
 A.
 
-## Tópico 7: **Desenvolvimento Back-end**
+## **Desenvolvimento Front-end**
+
+A.
+
+___
+
+# **Programando um Servidor**
+
+A.
+
+## **Desenvolvimento Back-end**
 
 A.
 
