@@ -351,7 +351,7 @@ Hora de descer pro play! Mas antes, garanta que tem o node instalado em sua máq
 
 ## **Apollo Sandbox**
 
-Acesse o repositório [CDC Livro GraphQL](https://github.com/hanashiro/cdc-livro-graphql.git) e clone para sua máquina com o seguinte comando: `git clone https://github.com/hanashiro/cdc-livro-graphql.git`.
+Acesse o repositório [CDC Livro GraphQL](https://github.com/hanashiro/cdc-livro-graphql.git) e clone para sua máquina com o seguinte comando: `git clone https://github.com/hanashiro/cdc-livro-graphql.git` (no caso desse repositório criamos um submódulo e nomeamos como `repo-base-livro-graphql`).
 
 Verá 3 pastas: `back`, `front` e `sandbox`. Acesse a pasta `sandbox` (`cd sandbox`), instale as dependências (`npm install`), inicialize a aplicação (`npm start`) e abra seu navegador em `http://localhost:3000/graphql`.
 
