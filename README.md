@@ -268,6 +268,38 @@ Perceba que além dos argumentos (`nomeCompleto` e `idade`, entre parênteses), 
 
 Quanto às mutations `atualizarAluno` e `excluirAluno`, veremos mais adiante (mas seguem exatamente a mesma lógica e estrutura).
 
+### Subscription - Notificação de Evento
+
+É uma forma de mantermos nossa aplicação com dados atualizados em tempo real. Basicamente solicitamos ao servidor que nos avise - via WebSocket - quando uma determinada ação ocorrer.
+
+#### EXEMPLOS
+
+**Subscription novoAluno**
+
+Exemplo de uma subscription `novoAluno`, que solicita ao back-end que nos avise quando um novo aluno for criado:
+
+```gql
+subscription {
+  novoAluno {
+    nomeCompleto
+    idade
+  }
+}
+```
+
+Da mesma forma que ocorre em uma query ou mutation, declaramos entre chaves (`{}`) os dados que desejamos receber. Resposta esperada (`.json`):
+
+```json
+{
+  "novoAluno": {
+    "nomeCompleto": "Fulano de Tal",
+    "idade": 51
+  }
+}
+```
+
+| **WebScokets**: são uma forma de manter a conexão entre cliente e servidor ativa, permitindo a livre troca de dados entre ambos, nas duas direções.
+
 ___
 
 # **GraphQL e Apollo Sandbox**
