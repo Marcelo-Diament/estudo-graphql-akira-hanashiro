@@ -159,12 +159,12 @@ No exemplo acima, `todosAlunos` seria o que chamamos de campo raiz (_rootField_)
 }
 ```
 
-**Query todosAlunosComCursos - Campos Aninhados e Alias**
+**Query todosAlunos - com Campos Aninhados e Alias**
 
 Um novo exemplo de query, dessa vez com campos aninhados (referentes ao curso de cada aluno - `id` e `disciplina`) e também com uso de _alias_ (dá-se um novo nome para a informação que será retornada - no caso, `disciplina` por `materia`):
 
 ```gql
-todosAlunosComCursos {
+todosAlunos {
   nomeCompleto
   idade
   curso {
@@ -179,7 +179,7 @@ Perceba que é possível omitir a palavra `query`. Retorno esperado (`.json`):
 ```json
 {
   "data": {
-    "todosAlunosComCursos": [
+    "todosAlunos": [
       {
         "nomeCompleto": "Fulano da Silva",
         "idade": 30,
@@ -208,12 +208,12 @@ Perceba que é possível omitir a palavra `query`. Retorno esperado (`.json`):
 
 A utilzação do _alias_ é muito útil por dar liberdade ao front-end renomear as propriedades sem demandar uma nova API ou a reestruturação do objeto retornado.
 
-**Query xPrimeirosAlunos - Query com Parâmetros**
+**Query todosAlunos - Query com Parâmetros**
 
 Ainda é possível executar consultas com base em parâmetros (permitindo trabalhar dados dinâmicos no front-end). Assim como as estruturas dos dados, o back-end deve ser previamente preparado para receber essas variáveis (veremos mais adiante). Nesse caso a consulta recebe um parâmetro chamado `primeiros`, que deve receber um número (`Int`) e retornar essa quantidade de registros (alunos).
 
 ```gql
-xPrimeirosAlunos(primeiros: 2) {
+todosAlunos(primeiros: 2) {
   nomeCompleto
 }
 ```
@@ -223,7 +223,7 @@ Veja que declaramos o parâmetro entre parênteses (`()`), com chave e valor (o 
 ```json
 {
   "data": {
-    "xPrimeirosAlunos": [
+    "todosAlunos": [
       {
         "nomeCompleto": "Fulano da Silva"
       },
@@ -239,7 +239,7 @@ Veja que declaramos o parâmetro entre parênteses (`()`), com chave e valor (o 
 
 É a operação de manipulação de dados. Requer que os esquemas tenham sido declarados previamente.
 
-#### EXEMPLOS
+#### EXEMPLO
 
 **Mutation criarAluno**
 
@@ -273,7 +273,7 @@ Quanto às mutations `atualizarAluno` e `excluirAluno`, veremos mais adiante (ma
 
 É uma forma de mantermos nossa aplicação com dados atualizados em tempo real. Basicamente solicitamos ao servidor que nos avise - via WebSocket - quando uma determinada ação ocorrer.
 
-#### EXEMPLOS
+#### EXEMPLO
 
 **Subscription novoAluno**
 
@@ -300,6 +300,48 @@ Da mesma forma que ocorre em uma query ou mutation, declaramos entre chaves (`{}
 ```
 
 > **WebScokets**: são uma forma de manter a conexão entre cliente e servidor ativa, permitindo a livre troca de dados entre ambos, nas duas direções.
+
+### Schema - Esquema Completo
+
+Da mesma forma que definimos os `type`s no nosso esquema, agora precisamos definir as operações relacionadas ao `type` (no caso, `Aluno`).
+
+#### EXEMPLO
+
+Considerando as operações realizadas e os tipos previamente declarados, teríamos o seguinte esquema:
+
+```gql
+# Tipo do objeto Aluno
+type Aluno {
+  id: ID!
+  nomeCompleto: String!
+  idade: Int
+  curso: Curso
+}
+
+# Tipo do objeto Curso
+type Curso {
+  id: ID!
+  disciplina: String!
+  alunos: [Aluno!]!
+}
+
+# Tipo de Query (último exemplo, com parâmetro 'primeiros')
+type Query {
+  todosAlunos(primeiros: Int): [Aluno!]!
+}
+
+# Tipo de Mutation
+type Mutation {
+  criarAluno(nomeCompleto: String!, idade: Int): Aluno!
+}
+
+# Tipo de Subscription
+type Subscription {
+  novoAluno: Aluno!
+}
+```
+
+Com isso completamos nossa visão geral sobre o que é GraphQL e seus principais conceitos.
 
 ___
 
