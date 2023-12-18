@@ -480,7 +480,61 @@ module.exports = schema;
 
 ## **Busca e Alteração de Dados**
 
-A.
+Vamos por em prática tudo o que vimos até o momento. Lembrando que nessa etapa estamos apenas executando os comandos - nosso back-end já está pronto.
+
+Ah! Passaremos a passar os argumentos em formato de variáveis (`.json`), nos aproximando mais de como se usa o GraphQL na prática.
+
+### Criar Aluno
+
+Na aba `ExampleQuery` (que já aparece aberta ao acessar o Sandbox), vamos inserir nosso comando na área `Operation` e os valores, em formato de `.json` na área `Variables`. Por fim, clicamos em `ExamplQuery` (o botão azul "Run", no canto superior direito).
+
+**Comando:**
+
+```gql
+mutation Mutation($data: AlunoInput!) {
+  createAluno(data: $data) {
+    id
+  }
+}
+```
+
+**Variables**
+
+```json
+{
+  "data": {
+    "nomeCompleto": "Fulano de Tal",
+    "idade": 55
+  }
+}
+```
+
+Isso seria o mesmo que:
+
+```gql
+mutation Mutation($data: AlunoInput!) {
+  createAluno(data: {
+    nomeCompleto: "Fulano de Tal",
+    idade: 55
+  }) {
+    id
+  }
+}
+```
+
+A diferença é que definimos uma variável e seu tipo (`($data: AlunoInput)`) e então atribuímos a variável ao argumento (`data: $data`). Por fim, definimos o valor para a variável (como fizemos em `Variables`). O resultado é o seguinte:
+
+```json
+{
+  "data": {
+    "createAluno": {
+      "id": "1702859103210"
+    }
+  }
+}
+```
+
+### Buscas
 
 ## **Types**
 
