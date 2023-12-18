@@ -355,6 +355,129 @@ Acesse o repositório [CDC Livro GraphQL](https://github.com/hanashiro/cdc-livro
 
 Verá 3 pastas: `back`, `front` e `sandbox`. Acesse a pasta `sandbox` (`cd sandbox`), instale o graphql com (`npm i graphql`), instale as dependências (`npm install`), inicialize a aplicação (`npm start`) e abra seu navegador em `http://localhost:3000/graphql`.
 
+Ao abrir o navegador, verá o sandbox do Apollo - é um ambiente onde podemos testar queries, mutations, subscriptions e esses comandos são executados no back-end. O sandbox é criado automaticamente quando se cria um servidor Apollo. Saiba mais em [apollographql.com](https://apollographql.com).
+
+Perceba que todo o esquema do back-end está declarado no arquivo `./cdc-livro-graphql-02/sandbox/schema.js`:
+
+```gql
+const schema = `
+  type Query {
+    aluno(id: ID!): Aluno
+    alunos(where: AlunosWhere): [Aluno]!
+    curso(id: ID!): Curso
+    cursos: [Curso]!
+  }
+
+  type Mutation {
+    createAluno(data: AlunoInput!): Aluno
+    deleteAluno(where: AlunoWhere!): Aluno
+    updateAluno(where: AlunoWhere!, data: AlunoUpdate!): Aluno
+
+    createCurso(data: CursoInput!): Curso
+    deleteCurso(where: CursoWhere!): Curso
+    updateCurso(where: CursoWhere!, data: CursoInput!): Curso
+  }
+
+  type Subscription {
+    aluno(where: AlunoSubscriptionFilter!): AlunoSubscriptionPayload
+    curso(where: CursoSubscriptionFilter!): CursoSubscriptionPayload
+  }
+
+  type Aluno{
+    id: ID!
+    nomeCompleto: String!
+    idade: Int
+    curso: Curso
+  }
+
+  type Curso{
+    id: ID!
+    disciplina: String!
+    alunos: [Aluno!]!
+  }
+
+  input AlunoInput{
+    nomeCompleto: String!
+    idade: Int
+    curso_create: CursoInput
+    curso_connect: CursoWhere
+    curso_disconnect: Boolean
+  }
+
+  input AlunoWhere{
+    id: ID!
+  }
+
+  input AlunoUpdate{
+    nomeCompleto: String
+    idade: Int
+    curso_connect: CursoWhere
+    curso_disconnect: Boolean
+  }
+
+  input AlunosWhere{
+    idade: Int
+    idade_in: [Int!]
+    idade_lt: Int
+    idade_gt: Int
+    idade_not: Int
+    idade_lte: Int
+    idade_gte: Int
+
+    nomeCompleto: String
+    nomeCompleto_ends_with: String
+    nomeCompleto_starts_with: String
+    nomeCompleto_not_contains: String
+    nomeCompleto_not_ends_with: String
+    nomeCompleto_not_starts_with: String
+
+    first: Int
+    skip: Int
+
+    orderBy: String
+  }
+
+  input CursoInput{
+    disciplina: String!
+    alunos_create: [AlunoInput!]
+    alunos_connect: [AlunoWhere!]
+    alunos_disconnect: [AlunoWhere!]
+  }
+
+  input CursoWhere{
+    id: ID!
+  }
+
+  input AlunoSubscriptionFilter {
+    mutation_in: [ ModelMutationType! ]
+  }
+
+  input CursoSubscriptionFilter {
+    mutation_in: [ ModelMutationType! ]
+  }
+
+  type AlunoSubscriptionPayload{
+    mutation: ModelMutationType
+    node: Aluno
+    previousValues: Aluno
+  }
+
+  type CursoSubscriptionPayload{
+    mutation: ModelMutationType
+    node: Curso
+    previousValues: Curso
+  }
+
+  enum ModelMutationType{
+    CREATED
+    UPDATED
+    DELETED
+  }
+`;
+
+module.exports = schema;
+```
+
 ## **Busca e Alteração de Dados**
 
 A.
