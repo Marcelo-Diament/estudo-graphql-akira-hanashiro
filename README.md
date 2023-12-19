@@ -537,7 +537,7 @@ A diferença é que definimos uma variável e seu tipo (`($data: AlunoInput)`) e
 }
 ```
 
-### Busca Simples
+### Busca Simples (Listagem)
 
 Agora vamos listar todos os alunos.
 
@@ -952,22 +952,96 @@ mutation ConectarAlunoECurso($aluno_id: ID!, $curso_id: ID!) {
 
 #### **Remover o relacionamento entre um aluno e um curso:**
 
+Partindo do pressuposto que só há um curso por aluno, nesse caso basta passarmos a instrução `curso_disconnect: true`, como podemos ver a seguir. Também podemos declarar o valor `true` diretamente nos argumentos, afinal é a única opção disponível.
+
 **Operação:**
 
 ```gql
-
+mutation DesconectarAlunoECurso($aluno_id: ID!) {
+  updateAluno(
+    where: {id: $aluno_id},
+    data: {
+      curso_disconnect: true
+    }
+  ) {
+    id
+    nomeCompleto
+    idade
+    curso {
+      id
+      disciplina
+    }
+  }
+}
 ```
 
 **Variáveis:**
 
 ```json
-
+{
+    "aluno_id": 1702951062431
+}
 ```
 
 **Retorno:**
 
 ```json
+{
+  "data": {
+    "updateAluno": {
+      "id": "1702951062431",
+      "nomeCompleto": "Irmão do Jorel",
+      "idade": 8,
+      "curso": null
+    }
+  }
+}
+```
 
+### Busca (Registro Específico)
+
+Já vimos como buscar uma lista (`alunos`). Agora buscaremos por um registro específico.
+
+**Operação:**
+
+```gql
+query BuscarAluno ($aluno_id: ID!) {
+  aluno(id: $aluno_id) {
+    nomeCompleto
+    idade
+  }
+}
+```
+
+**Variáveis:**
+
+```json
+{
+    "aluno_id": "1702951062431"
+}
+```
+
+**Retorno (sucesso):**
+
+```json
+{
+  "data": {
+    "aluno": {
+      "nomeCompleto": "Irmão do Jorel",
+      "idade": 8
+    }
+  }
+}
+```
+
+**Retorno (erro):**
+
+```json
+{
+  "data": {
+    "aluno": null
+  }
+}
 ```
 
 ## **Types**
