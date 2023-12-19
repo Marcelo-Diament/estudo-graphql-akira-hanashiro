@@ -494,6 +494,7 @@ Na aba `ExampleQuery` (que já aparece aberta ao acessar o Sandbox), vamos inser
 mutation Mutation($data: AlunoInput!) {
   createAluno(data: $data) {
     id
+    nomeCompleto
   }
 }
 ```
@@ -518,6 +519,7 @@ mutation Mutation($data: AlunoInput!) {
     idade: 55
   }) {
     id
+    nomeCompleto
   }
 }
 ```
@@ -528,13 +530,44 @@ A diferença é que definimos uma variável e seu tipo (`($data: AlunoInput)`) e
 {
   "data": {
     "createAluno": {
-      "id": "1702859103210"
+      "id": "1702945967660",
+      "nomeCompleto": "Fulano de Tal"
     }
   }
 }
 ```
 
-### Buscas
+### Busca Simples
+
+Agora vamos listar todos os alunos.
+
+**Comando:**
+
+```gql
+query ExampleQuery {
+  alunos {
+    id
+    nomeCompleto
+    idade
+  }
+}
+```
+
+**Retorno:**
+
+```json
+{
+  "data": {
+    "alunos": [
+      {
+        "id": "1702945967660",
+        "nomeCompleto": "Fulano de Tal",
+        "idade": 55
+      }
+    ]
+  }
+}
+```
 
 ## **Types**
 
