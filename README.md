@@ -1087,6 +1087,198 @@ Por fim, definimos um valor para a variável (na aba Variables, simulando um dad
 
 `{ "aluno_id": "1702951062431" }`
 
+> Usando variáveis temos **comandos estáticos e dados dinâmicos**.
+
+### Filtros
+
+Definidos por parâmetros, os filtros nada mais são do que uma forma de filtrar as respostas desejadas (por exemplo, retornar uma lista de alunos que tenham mais de 21 anos). No caso do nosso Sandbox, basta usarmos o campo `where` para indicar qual o campo a ser usado como parâmetro e seu valor.
+
+**Filtro por idade**
+
+Listando alunos com exatamente 50 anos:
+
+```gql
+# Query
+query ListarAlunosComVinteUmAnos ($where: AlunosWhere) {
+  alunos (where: $where) {
+    id
+    nomeCompleto
+    idade
+    curso {
+      disciplina
+    }
+  }
+}
+```
+
+```json
+// Variáveis
+{
+    "where": {
+      "idade": 50
+    }
+}
+```
+Veja que dessa vez passamos um objeto `where` como variável. Seu valor foi previamente tipado (`AlunosWhere`). E, nosso retorno é o seguinte:
+
+```json
+// Retorno
+{
+  "data": {
+    "alunos": [
+      {
+        "id": "1702950859185",
+        "nomeCompleto": "Homer Simpson",
+        "idade": 50,
+        "curso": {
+          "disciplina": "GraphQL"
+        }
+      }
+    ]
+  }
+}
+```
+
+> Dica: você já deve ter percebido que o Sandbox já sugere termos. Pressione Control + Espaço para visualizar e acatar as sugestões.
+
+**Outros Filtros**
+
+Esse projeto possui mais uma série de outros filtros prontos (onde `gt` significa "greater than"/"maior que", `lt` significa "less than"/"menor que", `lte` é "menor ou igual a" e `gte` é "maior ou igual a").
+
+| Campo          | Filtros                                                                                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nomeCompleto` | `nomeCompleto`, `nomeCompleto_ends_with`, `nomeCompleto_starts_with`, `nomeCompleto_not_contains_with`, `nomeCompleto_not_ends_with` e `nomeCompleto_starts_with` |
+| `idade`        | `idade`, `idade_in`, `idade_lt`, `idade_gt`, `idade_not`, `idade_lte` e `idade_gte`                                                                               |
+
+Exemplos:
+
+```gql
+# Query
+query ListarAlunosComFiltros ($where: AlunosWhere) {
+  alunos (where: $where) {
+    nomeCompleto
+    idade
+  }
+}
+```
+
+**Menor que 50 anos**
+
+```json
+// Variáveis
+{
+    "where": {
+      "idade_lt": 50
+    }
+}
+```
+
+```json
+//Retorno
+{
+  "data": {
+    "alunos": [
+      {
+        "nomeCompleto": "Joselito Sem Noção",
+        "idade": 22
+      },
+      {
+        "nomeCompleto": "Irmão do Jorel",
+        "idade": 8
+      }
+    ]
+  }
+}
+```
+
+**Menor ou igual a 50 anos**
+
+```json
+// Variáveis
+{
+    "where": {
+      "idade_lte": 50
+    }
+}
+```
+
+```json
+// Retorno
+{
+  "data": {
+    "alunos": [
+      {
+        "nomeCompleto": "Joselito Sem Noção",
+        "idade": 22
+      },
+      {
+        "nomeCompleto": "Homer Simpson",
+        "idade": 50
+      },
+      {
+        "nomeCompleto": "Irmão do Jorel",
+        "idade": 8
+      }
+    ]
+  }
+}
+```
+
+**Nome que começa com "Jo"**
+
+```json
+// Variáveis
+{
+    "where": {
+      "nomeCompleto_starts_with": "Jo"
+    }
+}
+```
+
+```json
+// Retorno
+{
+  "data": {
+    "alunos": [
+      {
+        "nomeCompleto": "Joselito Sem Noção",
+        "idade": 22
+      }
+    ]
+  }
+}
+```
+
+**Nome que não começa com "Jo"**
+
+```json
+// Variáveis
+{
+    "where": {
+      "nomeCompleto_not_starts_with": "Jo"
+    }
+}
+```
+
+```json
+// Retorno
+{
+  "data": {
+    "alunos": [
+      {
+        "nomeCompleto": "Homer Simpson",
+        "idade": 50
+      },
+      {
+        "nomeCompleto": "Irmão do Jorel",
+        "idade": 8
+      }
+    ]
+  }
+}
+```
+
+
 ## **Types**
 
 A.
