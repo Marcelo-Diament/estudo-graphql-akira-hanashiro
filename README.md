@@ -553,7 +553,7 @@ query ExampleQuery {
 }
 ```
 
-**Retorno:**
+**Retorno (sucesso):**
 
 ```json
 {
@@ -565,6 +565,109 @@ query ExampleQuery {
         "idade": 55
       }
     ]
+  }
+}
+```
+
+**Retorno (erro):**
+
+Caso não haja nenhum aluno registrado, precisamos receber um retorno - no caso, um array vazio:
+
+```json
+{
+  "data": {
+    "alunos": []
+  }
+}
+```
+
+### Atualização de Registro
+
+Para atualizarmos um registro, precisamos antes identificá-lo. Há uma mutation preparada no nosso back-end para receber uma operação que atualiza um aluno a partir de seu `id` (seu identificador único). Vamos lá!
+
+**Comando:**
+
+```gql
+mutation ($id: ID!, $idade: Int) {
+  updateAluno(data: {idade: $idade}, where :{id: $id}) {
+    id
+    nomeCompleto
+    idade
+  }
+}
+```
+
+Perceba que não demos um nome para nossa mutation, mas tipificamos nossos argumentos passados como variáveis (sendo o `id` do tipo `ID` e obrigatório e `idade` do tipo `Int`). Então definimos os valores de nossas variáveis em um `.json` (pegamos o valor do `id` ao criar o novo aluno):
+
+```json
+{
+  "id": "1702945967660",
+  "idade": 33
+}
+```
+
+**Retorno:**
+
+```json
+{
+  "data": {
+    "updateAluno": {
+      "id": "1702945967660",
+      "nomeCompleto": "Fulano de Tal",
+      "idade": 33
+    }
+  }
+}
+```
+
+### Exclusão de Registro
+
+Para apagarmos um registro, também precisamos antes identificá-lo - mas não há dados adicionais a serem enviados. Ainda que a gente vá apagar o registro, precisamos declarar algum retorno (nesse caso, é nossa última chance de exibir esses dados).
+
+**Comando:**
+
+```gql
+mutation ($id: ID!) {
+  deleteAluno(where: {id: $id}) {
+    id
+    nomeCompleto
+    idade
+  }
+}
+```
+
+Perceba que não demos um nome para nossa mutation, mas tipificamos nossos argumentos passados como variáveis (sendo o `id` do tipo `ID` e obrigatório e `idade` do tipo `Int`). Então definimos os valores de nossas variáveis em um `.json` (pegamos o valor do `id` ao criar o novo aluno):
+
+```json
+{
+  "id": "1702945967660"
+}
+```
+
+**Retorno (sucesso):**
+
+```json
+{
+  "data": {
+    "alunos": [
+      {
+        "id": "1702945951841",
+        "nomeCompleto": "Fulano de Tal",
+        "idade": 55
+      }
+    ]
+  }
+}
+```
+
+**Retorno (erro):**
+
+Caso não exista um registro de `id` compatível, recebemos `data: null`:
+
+```json
+{
+  "data": {
+    "deleteAluno": null
   }
 }
 ```
