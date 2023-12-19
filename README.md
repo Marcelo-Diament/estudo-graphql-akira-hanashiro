@@ -1044,6 +1044,49 @@ query BuscarAluno ($aluno_id: ID!) {
 }
 ```
 
+### Variáveis
+
+Já estamos usando as variáveis, mas vamos recapitular como funcionam. Primeiro, vamos ver uma query sem o uso de variáveis:
+
+```gql
+query BuscarAluno {
+  aluno(id: "1702951062431") {
+    nomeCompleto
+    idade
+  }
+}
+```
+Perceba que simplesmente indicamos o ID desejado diretamente na query (como se fosse _hard coded_, "na unha").
+
+Mas no dia a dia, o valor passado deve ser dinâmico, respondendo ao front-end. E aí entram as variáveis. Veja a diferença:
+
+```gql
+query BuscarAluno ($aluno_id: ID!) {
+  aluno(id: $aluno_id) {
+    nomeCompleto
+    idade
+  }
+}
+```
+
+```json
+{
+  "aluno_id": "1702951062431"
+}
+```
+
+Na primeira linha, indicamos que iremos usar a variável `$aluno_id` e que seu tipo deve ser `ID!` (conforme a tipagem definida para o `id`, sendo obrigatório):
+
+`query BuscarAluno ($aluno_id: ID!) {`
+
+Então atribuímos o valor dessa variável ao `id` (usado como parâmetro para a busca a ser feita):
+
+`aluno(id: $aluno_id) {`
+
+Por fim, definimos um valor para a variável (na aba Variables, simulando um dado inserido no front-end):
+
+`{ "aluno_id": "1702951062431" }`
+
 ## **Types**
 
 A.
