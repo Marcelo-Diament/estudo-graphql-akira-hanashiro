@@ -672,6 +672,304 @@ Caso não exista um registro de `id` compatível, recebemos `data: null`:
 }
 ```
 
+### Relacionamento de Dados
+
+Considerando o exemplo de alunos e cursos, há três possíveis operações no nosso projeto:
+
+- Criar um aluno e relacionar um novo curso;
+- Criar um aluno e relacionar um curso existente;
+- Relacionar um curso existente a um aluno existente;
+- Remover o relacionamento entre um aluno e um curso.
+
+#### **Criar um aluno e relacionar um novo curso:**
+
+Começaremos criando um novo Aluno e atribuindo um novo curso a ele, seguindo o mesmo padrão já visto. O único ponto de atenção é que devemos indicar que queremos criar um aluno (fazemos isso declarando a propriedade `create_aluno`):
+
+**Operação:**
+
+```gql
+mutation CriarAlunoECriarCurso($nomeCompleto: String!, $disciplina: String!, $idade: Int) {
+  createAluno(data: {
+    nomeCompleto: $nomeCompleto
+    idade: $idade
+    curso_create: {
+      disciplina: $disciplina
+    }
+    }) {
+    id
+    nomeCompleto
+    idade
+    curso {
+      id
+      disciplina
+    }
+  }
+}
+```
+
+**Variáveis:**
+
+```json
+{
+  "nomeCompleto": "Joselito Sem Noção",
+  "idade": 22,
+  "disciplina": "GraphQL"
+}
+```
+
+**Retorno:**
+
+```json
+{
+  "data": {
+    "createAluno": {
+      "id": "1702949884272",
+      "nomeCompleto": "Joselito Sem Noção",
+      "idade": 22,
+      "curso": {
+        "id": "1702949884272",
+        "disciplina": "GraphQL"
+      }
+    }
+  }
+}
+```
+
+Podemos checar a criação do Aluno e do Curso com as seguintes queries:
+
+**Alunos**
+
+```gql
+query ListarAlunos {
+  alunos {
+    id
+    nomeCompleto
+    idade
+    curso {
+      disciplina
+    }
+  }
+}
+```
+
+**Cursos**
+
+```json
+{
+  "data": {
+    "alunos": [
+      {
+        "id": "1702949884272",
+        "nomeCompleto": "Joselito Sem Noção",
+        "idade": 22,
+        "curso": {
+          "disciplina": "GraphQL"
+        }
+      }
+    ]
+  }
+}
+```
+
+```gql
+query ListarCursos {
+  cursos {
+    id
+    disciplina
+    alunos {
+      id
+      nomeCompleto
+      idade
+    }
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "cursos": [
+      {
+        "id": "1702949884272",
+        "disciplina": "GraphQL",
+        "alunos": [
+          {
+            "id": "1702949884272",
+            "nomeCompleto": "Joselito Sem Noção",
+            "idade": 22
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### **Criar um aluno e relacionar um curso existente:**
+
+**Operação:**
+
+```gql
+mutation CriarAlunoEConectarCurso(
+  $nomeCompleto: String!,
+  $idade: Int,
+  $disciplinaId: ID!) {
+  createAluno(data: {
+    nomeCompleto: $nomeCompleto
+    idade: $idade
+    curso_connect: {
+      id: $disciplinaId
+    }
+    }) {
+    id
+    nomeCompleto
+    idade
+    curso {
+      id
+      disciplina
+    }
+  }
+}
+```
+
+**Variáveis:**
+
+```json
+{
+  "nomeCompleto": "Homer Simpson",
+  "idade": 50,
+  "disciplinaId": "1702949884272"
+}
+```
+
+**Retorno:**
+
+```json
+{
+  "data": {
+    "createAluno": {
+      "id": "1702950859185",
+      "nomeCompleto": "Homer Simpson",
+      "idade": 50,
+      "curso": {
+        "id": "1702949884272",
+        "disciplina": "GraphQL"
+      }
+    }
+  }
+}
+```
+
+#### **Relacionar um curso existente a um aluno existente:**
+
+**Operação 01 - Criar Aluno:**
+
+```gql
+mutation CriarAluno($nomeCompleto: String!, $idade: Int, $disciplina: String!) {
+  createAluno(data: {
+    nomeCompleto: $nomeCompleto
+    idade: $idade
+    }) {
+    id
+    nomeCompleto
+    idade
+  }
+}
+```
+
+**Variáveis:**
+
+```json
+{
+  "nomeCompleto": "Irmão do Jorel",
+  "idade": 8
+}
+```
+
+**Retorno:**
+
+```json
+{
+  "data": {
+    "createAluno": {
+      "id": "1702951062431",
+      "nomeCompleto": "Irmão do Jorel",
+      "idade": 8
+    }
+  }
+}
+```
+
+**Operação 02 - Relacionar Curso:**
+
+```gql
+mutation ConectarAlunoECurso($aluno_id: ID!, $curso_id: ID!) {
+  updateAluno(
+    where: {id: $aluno_id},
+    data: {
+      curso_connect: {
+        id: $curso_id
+      }
+    }
+  ) {
+    id
+    nomeCompleto
+    idade
+    curso {
+      id
+      disciplina
+    }
+  }
+}
+```
+
+**Variáveis:**
+
+```json
+{
+    "aluno_id": 1702951062431,
+    "curso_id": 1702949884272
+}
+```
+
+**Retorno:**
+
+```json
+{
+  "data": {
+    "updateAluno": {
+      "id": "1702951062431",
+      "nomeCompleto": "Irmão do Jorel",
+      "idade": 8,
+      "curso": {
+        "id": "1702949884272",
+        "disciplina": "GraphQL"
+      }
+    }
+  }
+}
+```
+
+#### **Remover o relacionamento entre um aluno e um curso:**
+
+**Operação:**
+
+```gql
+
+```
+
+**Variáveis:**
+
+```json
+
+```
+
+**Retorno:**
+
+```json
+
+```
+
 ## **Types**
 
 A.
