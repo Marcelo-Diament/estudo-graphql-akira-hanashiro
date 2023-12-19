@@ -1420,15 +1420,81 @@ query ListarAlunos($first: Int, $skip: Int) {
 
 ### Ordenação
 
+Mais um argumento para facilitar nossa vida - a possibilidade de ordernar os registros retornados a partir de um dos campos (no nosso exemplo, `nomeCompleto`).
+
+**Uso do `orderBy`**
+
+```gql
+# Query
+query ListarAlunos($orderBy: String) {
+  alunos (where: {
+    orderBy: $orderBy
+  }) {
+    nomeCompleto
+  }
+}
+```
+
+```json
+// Variáveis
+{
+  "orderBy": "nomeCompleto"
+}
+```
+
+```json
+// Response
+{
+  "data": {
+    "alunos": [
+      {
+        "nomeCompleto": "Beltrano da Silva"
+      },
+      {
+        "nomeCompleto": "Ciclano da Silva"
+      },
+      {
+        "nomeCompleto": "Fulano da Silva"
+      },
+      {
+        "nomeCompleto": "Huguinho Patinhas"
+      },
+      {
+        "nomeCompleto": "Luizinho Patinhas"
+      },
+      {
+        "nomeCompleto": "Zezinho Patinhas"
+      }
+    ]
+  }
+}
+```
+
 ### Alias (Renomeando Campos)
 
 ### Fragmentos
 
-### Inputs
+### Notificações
 
 ## **Types**
 
-A.
+### Types
+
+### Scalar Types
+
+#### `Int`
+
+#### `Float`
+
+#### `String`
+
+#### `Boolean`
+
+#### `ID`
+
+### Enumeration Types (ENUM)
+
+### Input Types
 
 ___
 
