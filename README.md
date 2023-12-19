@@ -1472,9 +1472,105 @@ query ListarAlunos($orderBy: String) {
 
 ### Alias (Renomeando Campos)
 
+Por vezes, precisamos receber os dados no front-end com nomes diferentes dos seus nomes originais. Para isso, podemos utilizar o recurso de renomeação ("alias"). Basta inserir o nome desejado e dois pontos (`nomeNovo: `) antes do campo a ser renomeado.
+
+```gql
+# Query
+query ListarAlunos {
+  alumni: alunos (where: {
+    first: 2
+  }) {
+    fullName: nomeCompleto
+    age: idade
+  }
+}
+```
+
+```json
+// Response
+{
+  "data": {
+    "alumni": [
+      {
+        "fullName": "Fulano da Silva",
+        "age": 20
+      },
+      {
+        "fullName": "Ciclano da Silva",
+        "age": 30
+      }
+    ]
+  }
+}
+```
+
+Repare que renomeamos todos os campos retornados (`alunos` para `alumni`, `nomeCompleto` para `fullName` e `idade` para `age`).
+
+Outra grande vantagem de utilizarmos `alias` é podermos executar duas queries iguais (com parâmetros diferentes) de uma só vez. Veja:
+
+```gql
+# Query
+query ListarAlunos {
+  alunosPorNome: alunos (where: {
+    orderBy: "nomeCompleto",
+    first: 3
+  }) {
+    nomeCompleto
+    idade
+  }
+  alunosPorIdade: alunos (where: {
+    orderBy: "idade",
+    first: 3
+  }) {
+    nomeCompleto
+    idade
+  }
+}
+```
+
+```json
+// Response
+{
+  "data": {
+    "alunosPorNome": [
+      {
+        "nomeCompleto": "Beltrano da Silva",
+        "idade": 40
+      },
+      {
+        "nomeCompleto": "Ciclano da Silva",
+        "idade": 30
+      },
+      {
+        "nomeCompleto": "Fulano da Silva",
+        "idade": 20
+      }
+    ],
+    "alunosPorIdade": [
+      {
+        "nomeCompleto": "Fulano da Silva",
+        "idade": 20
+      },
+      {
+        "nomeCompleto": "Ciclano da Silva",
+        "idade": 30
+      },
+      {
+        "nomeCompleto": "Beltrano da Silva",
+        "idade": 40
+      }
+    ]
+  }
+}
+```
+
 ### Fragmentos
 
+A.
+
 ### Notificações
+
+A.
 
 ## **Types**
 
