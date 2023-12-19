@@ -695,7 +695,7 @@ mutation CriarAlunoECriarCurso($nomeCompleto: String!, $disciplina: String!, $id
     curso_create: {
       disciplina: $disciplina
     }
-    }) {
+  }) {
     id
     nomeCompleto
     idade
@@ -810,17 +810,14 @@ query ListarCursos {
 **Operação:**
 
 ```gql
-mutation CriarAlunoEConectarCurso(
-  $nomeCompleto: String!,
-  $idade: Int,
-  $disciplinaId: ID!) {
+mutation CriarAlunoEConectarCurso( $nomeCompleto: String!, $idade: Int, $disciplinaId: ID!) {
   createAluno(data: {
     nomeCompleto: $nomeCompleto
     idade: $idade
     curso_connect: {
       id: $disciplinaId
     }
-    }) {
+  }) {
     id
     nomeCompleto
     idade
@@ -869,7 +866,7 @@ mutation CriarAluno($nomeCompleto: String!, $idade: Int, $disciplina: String!) {
   createAluno(data: {
     nomeCompleto: $nomeCompleto
     idade: $idade
-    }) {
+  }) {
     id
     nomeCompleto
     idade
@@ -927,8 +924,8 @@ mutation ConectarAlunoECurso($aluno_id: ID!, $curso_id: ID!) {
 
 ```json
 {
-    "aluno_id": 1702951062431,
-    "curso_id": 1702949884272
+  "aluno_id": 1702951062431,
+  "curso_id": 1702949884272
 }
 ```
 
@@ -979,7 +976,7 @@ mutation DesconectarAlunoECurso($aluno_id: ID!) {
 
 ```json
 {
-    "aluno_id": 1702951062431
+  "aluno_id": 1702951062431
 }
 ```
 
@@ -1017,7 +1014,7 @@ query BuscarAluno ($aluno_id: ID!) {
 
 ```json
 {
-    "aluno_id": "1702951062431"
+  "aluno_id": "1702951062431"
 }
 ```
 
@@ -1114,9 +1111,9 @@ query ListarAlunosComVinteUmAnos ($where: AlunosWhere) {
 ```json
 // Variáveis
 {
-    "where": {
-      "idade": 50
-    }
+  "where": {
+    "idade": 50
+  }
 }
 ```
 Veja que dessa vez passamos um objeto `where` como variável. Seu valor foi previamente tipado (`AlunosWhere`). E, nosso retorno é o seguinte:
@@ -1167,9 +1164,9 @@ query ListarAlunosComFiltros ($where: AlunosWhere) {
 ```json
 // Variáveis
 {
-    "where": {
-      "idade_lt": 50
-    }
+  "where": {
+    "idade_lt": 50
+  }
 }
 ```
 
@@ -1196,9 +1193,9 @@ query ListarAlunosComFiltros ($where: AlunosWhere) {
 ```json
 // Variáveis
 {
-    "where": {
-      "idade_lte": 50
-    }
+  "where": {
+    "idade_lte": 50
+  }
 }
 ```
 
@@ -1229,9 +1226,9 @@ query ListarAlunosComFiltros ($where: AlunosWhere) {
 ```json
 // Variáveis
 {
-    "where": {
-      "nomeCompleto_starts_with": "Jo"
-    }
+  "where": {
+    "nomeCompleto_starts_with": "Jo"
+  }
 }
 ```
 
@@ -1254,9 +1251,9 @@ query ListarAlunosComFiltros ($where: AlunosWhere) {
 ```json
 // Variáveis
 {
-    "where": {
-      "nomeCompleto_not_starts_with": "Jo"
-    }
+  "where": {
+    "nomeCompleto_not_starts_with": "Jo"
+  }
 }
 ```
 
@@ -1278,6 +1275,7 @@ query ListarAlunosComFiltros ($where: AlunosWhere) {
 }
 ```
 
+### A
 
 ## **Types**
 
