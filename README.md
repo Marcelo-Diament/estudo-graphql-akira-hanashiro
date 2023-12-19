@@ -1275,7 +1275,156 @@ query ListarAlunosComFiltros ($where: AlunosWhere) {
 }
 ```
 
-### A
+### Paginação
+
+Quando tratamos um volume muito grande de dados, é uma boa prática usar a paginação. Para isso, vamos usar dois argumentos dentro de `where`, o `first` (define o número de registros que devem ser retornados) e o `skip` (como um "offset", define quantos elementos devemos 'pular').
+
+Para visualizarmos a paginação funcionando, criamos os seguintes alunos e cursos:
+
+```json
+{
+  "data": {
+    "alunos": [
+      {
+        "id": "1703025631771",
+        "nomeCompleto": "Fulano da Silva",
+        "idade": 20,
+        "curso": {
+          "disciplina": "GraphQL"
+        }
+      },
+      {
+        "id": "1703025645664",
+        "nomeCompleto": "Ciclano da Silva",
+        "idade": 30,
+        "curso": {
+          "disciplina": "ReactJS"
+        }
+      },
+      {
+        "id": "1703025657874",
+        "nomeCompleto": "Beltrano da Silva",
+        "idade": 40,
+        "curso": {
+          "disciplina": "NodeJS"
+        }
+      },
+      {
+        "id": "1703025682501",
+        "nomeCompleto": "Huguinho Patinhas",
+        "idade": 50,
+        "curso": {
+          "disciplina": "HTML"
+        }
+      },
+      {
+        "id": "1703025691810",
+        "nomeCompleto": "Zezinho Patinhas",
+        "idade": 55,
+        "curso": {
+          "disciplina": "CSS"
+        }
+      },
+      {
+        "id": "1703025702825",
+        "nomeCompleto": "Luizinho Patinhas",
+        "idade": 60,
+        "curso": {
+          "disciplina": "JS"
+        }
+      }
+    ]
+  }
+}
+```
+
+**Uso do `first`**
+
+```gql
+# Query
+query ListarAlunos($first: Int) {
+  alunos (where: {
+    first: $first
+  }) {
+    nomeCompleto
+  }
+}
+```
+
+```json
+// Variáveis
+{
+  "first": 3
+}
+```
+
+```json
+// Response
+{
+  "data": {
+    "alunos": [
+      {
+        "nomeCompleto": "Fulano da Silva"
+      },
+      {
+        "nomeCompleto": "Ciclano da Silva"
+      },
+      {
+        "nomeCompleto": "Beltrano da Silva"
+      }
+    ]
+  }
+}
+```
+
+**Uso do `first` com `skip`**
+
+```gql
+# Query
+query ListarAlunos($first: Int, $skip: Int) {
+  alunos (where: {
+    first: $first
+    skip: $skip
+  }) {
+    nomeCompleto
+  }
+}
+```
+
+```json
+// Variáveis
+{
+  "first": 3,
+  "skip": 2
+}
+```
+
+```json
+// Response
+{
+  "data": {
+    "alunos": [
+      {
+        "nomeCompleto": "Beltrano da Silva"
+      },
+      {
+        "nomeCompleto": "Huguinho Patinhas"
+      },
+      {
+        "nomeCompleto": "Zezinho Patinhas"
+      }
+    ]
+  }
+}
+```
+
+### Ordenação
+
+### Alias (Renomeando Campos)
+
+### Fragmentos
+
+### Inputs
 
 ## **Types**
 
