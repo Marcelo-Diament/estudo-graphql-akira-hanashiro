@@ -1566,7 +1566,53 @@ query ListarAlunos {
 
 ### Fragmentos
 
-A.
+Você já deve ter ouvido falar sobre DRY - Don't Repeat Yourself ("Não Seja Repetitivo"). O uso de fragmentos é muito útil para evitar códigos duplicados e centralizar o controle desses campos. Os fragmentos nada mais são do que uma forma de agrupar campos. Dessa forma, não precisamos duplicar código e, em caso de alterações, não corremos o risco de esquecer de alterar o código em um local (pois centralizamos os campos no fragmento).
+
+Tudo o que precisamos fazer é declarar o fragmento, indicar o esquema ao qual está atrelado. No exemplo a seguir criamos dois fragmentos - `dadosCadastrais` (que incluem `nomeCompleto` e `idade`) e `dadosAcademicos` (inclui `curso {disciplina, id}`).
+
+```gql
+fragment dadosCadastrais on Aluno {
+  nomeCompleto
+  idade
+}
+
+fragment dadosAcademicos on Aluno {
+  curso {
+    id
+    disciplina
+  }
+}
+```
+
+Uma vez criado o fragmento, podemos usar a seguinte sintaxe: `...meuFragmento`, isso trará os campos definidos no seu fragmento (como o _spreadOperator_). Veja a diferença entre as duas versões da mesma query - uma com e outra sem os fragmentos.
+
+```gql
+# Sem Fragmentos
+query ListarAlunos {
+  alunos (where: {
+    first: 3
+  }) {
+    nomeCompleto
+    idade
+    curso {
+      id
+      disciplina
+    }
+  }
+}
+
+# Com Fragmentos
+query ListarAlunos {
+  alunos (where: {
+    first: 3
+  }) {
+    ...dadosCadastrais
+    ...dadosAcademicos
+  }
+}
+```
+
+Imagine quanta repetição não economizamos usando os fragmentos! Lembre-se de um fragmento só pode ser usado dentro do esquema ao qual está atrelado.
 
 ### Notificações
 
