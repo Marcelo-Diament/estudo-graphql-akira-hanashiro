@@ -1745,6 +1745,16 @@ Identificador único de um registro (PK - Primary Key, chave primária).
 
 ### Enumeration Types (ENUM)
 
+Funcionam como uma tag HTML `<select></select>`, que possui opções pré definidas (por exemplo, o campo `mutation` com o valor `UPDATED`). Uma boa prática é manter sempre os possíveis valores do tipo ENUM em uppercase (maiúsculas).
+
+```gql
+enum MyEnumValues {
+  OPCAO1
+  OPCAO2
+  OPCAO3
+}
+```
+
 ### Input Types
 
 ___
