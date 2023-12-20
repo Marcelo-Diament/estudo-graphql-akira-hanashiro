@@ -1757,6 +1757,45 @@ enum MyEnumValues {
 
 ### Input Types
 
+Como diz o nome, é um tipo destinado a inputs, entradas de dados. Isso ocorre pois há cenários onde os parâmetros de entrada (inputs) não se encaixam à estrutura do esquema em questão - e todo type declarado deve pertencer ao nosso esquema. A saída são os `Input Types`, pois permitem estruturas exclusivas para esses parâmetros de entrada. Uma boa prática é indicar que o type é do tipo `Input`, fazemos isso declarando o termo `Input` como sufixo do nome do Type. Um exemplo é o objeto `data`, que enviamos para criar um aluno:
+
+```gql
+# Mutation
+mutation CriarAluno($data: AlunoInput!){
+  createAluno(data: $data) {
+    nomeCompleto
+  }
+}
+```
+
+```json
+// Variáveis
+{
+  "data": {
+    "nomeCompleto": "James Bond",
+    "idade": 89
+  }
+}
+```
+
+Essa estrutura (`data: {nomeCompleto, idade}`) não pertence ao esquema. Para que isso seja possível, foi declarado o Input Type `AlunoInput`:
+
+```gql
+input AlunoInput{
+  nomeCompleto: String!
+  idade: Int
+  curso_create: CursoInput
+  curso_connect: CursoWhere
+  curso_disconnect: Boolean
+}
+```
+
+Além de receber `nomeCompleto` (obrigatoriamente), também pode receber `idade`, `curso_create`, `curso_connect` e `curso_disconnect` (opcionalmente).
+
+Um ponto importante sobre Input Types é que não possuem o campo `id`. Isso por que não tratam de registros no banco de dados, mas sim de estruturas de parâmetros de entrada.
+
+Outro destaque desse type é que podemos atrelar inputs específicos a tipos de operações específicas. Por exemplo, podemos definir um campo `senha` para uma `mutation` sem ter de criar um campo `senha` para o esquema de usuários (caso contrário, a senha ficaria disponível para consultas/`queries`).
+
 ___
 
 # **Criando uma aplicação**
