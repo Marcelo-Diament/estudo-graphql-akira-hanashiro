@@ -1614,9 +1614,91 @@ query ListarAlunos {
 
 Imagine quanta repetição não economizamos usando os fragmentos! Lembre-se de um fragmento só pode ser usado dentro do esquema ao qual está atrelado.
 
-### Notificações
+### Notificações (Subscriptions)
 
-A.
+Uma subscription nada mais é do que uma operação que solicita receber uma notificação quando outra operação é realizada (criação, atualização ou exclusão de um registro) dentro de um esquema específico.
+
+Nessa lição iremos solicitar a notificação quando um aluno for atualizado (logo, trabalharemos com o `upadte` de um registro do esquema `aluno`). Para isso, indicamos que se trata de uma operação `subscription`, a nomeamos, declaramos o argumento `where` para indicar que a notificação deve ser disparada quando ocorrer uma `mutation` que corresponda a um dos tipos indicados no array (`[UPDATE]`). Então passamos o campo `mutation` (para sabermos qual foi o tipo de operação) e, dentro do campo `node`, passamos os campos que queremos receber na notificação. Na prática, nossa `subscription` ficará assim:
+
+```gql
+subscription alunoAtualizado {
+  aluno(where: {
+    mutation_in: [UPDATED]
+  }) {
+    mutation
+    node {
+      id
+      nomeCompleto
+      idade
+    }
+  }
+}
+```
+
+Após executar a `subscription` no Sandbox, verá que aparecerá um novo box, chamado Subscriptions. Vamos alterar o dado de um aluno para vermos o retorno.
+
+```gql
+mutation atualizarAluno {
+  updateAluno(
+    where: { id: 1703025631771},
+    data: {idade: 100}
+  ) {
+    id
+    nomeCompleto
+    idade
+  }
+}
+```
+
+Ao executar a atualização, além da resposta, verá a seguinte mensagem no box Subscriptions:
+
+```json
+// Response received at 21:04:37
+{
+  "data": {
+    "aluno": {
+      "mutation": "UPDATED",
+      "node": {
+        "id": "1703025631771",
+        "nomeCompleto": "Fulano da Silva",
+        "idade": 100
+      }
+    }
+  }
+}
+```
+
+Execute mais uma operação e veja o retorno novamente - acontece em tempo real.
+
+```json
+// Response received at 21:05:39
+{
+  "data": {
+    "aluno": {
+      "mutation": "UPDATED",
+      "node": {
+        "id": "1703025631771",
+        "nomeCompleto": "Fulano da Silva",
+        "idade": 10
+      }
+    }
+  }
+}
+
+// Response received at 21:04:37
+{
+  "data": {
+    "aluno": {
+      "mutation": "UPDATED",
+      "node": {
+        "id": "1703025631771",
+        "nomeCompleto": "Fulano da Silva",
+        "idade": 100
+      }
+    }
+  }
+}
+```
 
 ## **Types**
 
