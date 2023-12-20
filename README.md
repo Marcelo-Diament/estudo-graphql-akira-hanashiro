@@ -1702,19 +1702,46 @@ Execute mais uma operação e veja o retorno novamente - acontece em tempo real.
 
 ## **Types**
 
+Sobre os tipos de dados aceitos no GraphQL.
+
 ### Types
+
+São os tipos mais básicos, definem a estrutura de objetos e seus campos e tipos.
+
+```gql
+type Aluno {
+  id: ID!
+  nomeCompleto: String!
+  idade: Int
+  colegaDeTrabalho: Aluno
+}
+```
+
+No exemplo acima declaramos um `type Aluno`, que possui 4 propriedades - dos tipo `ID!` (identificador único e obrigatório), `String!` (um texto, obrigatório), `Int` (um número inteiro) e... `Aluno` (ou seja, o campo `colegaDeTrabalho` receberá esses mesmos dados - `id, nomeCompleto, idade, colegaDeTrabalho`).
 
 ### Scalar Types
 
+Servem para tipar dados concretos, que não são objetos. Há os seguintes cinco `Scalar Types`:
+
 #### `Int`
+
+Número inteiro, como no campo `idade`.
 
 #### `Float`
 
+Número decimal, como o preço de um produto (`19.99`).
+
 #### `String`
+
+Texto, como nosso campo `nomeCompleto`.
 
 #### `Boolean`
 
+Valor booleano (`true` ou `false`).
+
 #### `ID`
+
+Identificador único de um registro (PK - Primary Key, chave primária).
 
 ### Enumeration Types (ENUM)
 
